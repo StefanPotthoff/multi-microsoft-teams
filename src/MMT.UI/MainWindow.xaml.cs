@@ -221,49 +221,42 @@ namespace MMT.UI
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
         }
 
-        private async void LstProfiles_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (sender is ListBoxItem item && item.DataContext is Profile selectedProfile)
-            {
-                if (selectedProfile.IsDisabled)
-                {
-                    _profileManager.Enable(selectedProfile);
-                }
-                else if (await MessageHelper.Confirm($"Disable profile?\nProfile name: {selectedProfile.Name}") == MessageDialogResult.Affirmative)
-                {
-                    _profileManager.Disable(selectedProfile);
-                }
-            }
-        }
-
         private void MenuItemEdit_OnClick(object sender, RoutedEventArgs e)
         {
             if (lstProfiles.SelectedIndex == -1) return;
 
-            var menuItem = sender as MenuItem;
-            if (menuItem == null) return;
+            if (sender is MenuItem menuItem && menuItem.DataContext is Profile profile)
+            {
+                editProfile = profile;
+                txtProfileNameEdit.Text = profile.Name;
 
-            var profile = menuItem.DataContext as Profile;
-            if (profile == null) return;
-
-            editProfile = profile;
-            txtProfileNameEdit.Text = profile.Name;
-
-            ChangeTabVisibility(TabEnum.EditProfile);
-
+                ChangeTabVisibility(TabEnum.EditProfile);
+            }
         }
 
         private async void MenuItemDelete_OnClick(object sender, RoutedEventArgs e)
         {
             if (lstProfiles.SelectedIndex < 1) return;
 
-            var menuItem = sender as MenuItem;
-            if (menuItem == null) return;
-
-            var profile = menuItem.DataContext as Profile;
-            if (profile != null)
+            if (sender is MenuItem menuItem && menuItem.DataContext is Profile profile)
             {
                 await RemoveProfile(profile);
+            }
+        }
+        private void MenuItemEnable_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (sender is MenuItem item && item.DataContext is Profile selectedProfile && selectedProfile.IsDisabled)
+            {
+                _profileManager.Enable(selectedProfile);
+            }
+        }
+
+        private async void MenuItemDisable_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (sender is MenuItem item && item.DataContext is Profile selectedProfile && selectedProfile.IsEnabled
+                && await MessageHelper.Confirm($"Disable profile?\nProfile name: {selectedProfile.Name}") == MessageDialogResult.Affirmative)
+            {
+                _profileManager.Disable(selectedProfile);
             }
         }
 

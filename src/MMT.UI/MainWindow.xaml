@@ -78,10 +78,23 @@
                                                     </Style>
                                                 </MenuItem.Style>
                                             </MenuItem>
+                                            <MenuItem Header="Enable" IsEnabled="{Binding IsDisabled}">
+                                                <MenuItem.Style>
+                                                    <Style TargetType="MenuItem">
+                                                        <EventSetter Event="Click" Handler="MenuItemEnable_OnClick"/>
+                                                    </Style>
+                                                </MenuItem.Style>
+                                            </MenuItem>
+                                            <MenuItem Header="Disable" IsEnabled="{Binding IsEnabled}">
+                                                <MenuItem.Style>
+                                                    <Style TargetType="MenuItem">
+                                                        <EventSetter Event="Click" Handler="MenuItemDisable_OnClick"/>
+                                                    </Style>
+                                                </MenuItem.Style>
+                                            </MenuItem>
                                         </ContextMenu>
                                     </Setter.Value>
                                 </Setter>
-                                <EventSetter Event="MouseDoubleClick" Handler="LstProfiles_MouseDoubleClick"/>
                             </Style>
                         </ListBox.ItemContainerStyle>
                     </ListBox>
