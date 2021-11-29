@@ -1,4 +1,7 @@
-﻿namespace MMT.Core
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+
+namespace MMT.Core
 {
     public class Profile
     {
@@ -20,10 +23,10 @@
 
         public bool IsDeletable
         {
-	        get
-	        {
-		        return !IsDefault;
-	        }
+            get
+            {
+                return !IsDefault;
+            }
         }
     }
 }
